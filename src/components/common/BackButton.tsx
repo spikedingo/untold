@@ -37,7 +37,7 @@ export function BackButton({
   }, []);
 
   const baseClasses = cn(
-    "inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm text-ink-500 transition-colors hover:bg-paper-100 hover:text-ink-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-glow",
+    "inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-md px-3 py-1.5 text-sm text-ink-500 transition-colors hover:bg-paper-100 hover:text-ink-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-glow",
     className
   );
 

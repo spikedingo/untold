@@ -94,7 +94,7 @@ export function ReaderShell({ novel, scenes }: ReaderShellProps) {
       >
         <div className="pointer-events-auto border-b border-paper-200/70 bg-surface/85 backdrop-blur-md supports-[backdrop-filter]:bg-surface/70">
           <div
-            className="mx-auto flex max-w-3xl items-center justify-between gap-3 px-4 py-3 sm:py-4"
+            className="mx-auto flex max-w-3xl items-center justify-between gap-2 px-4 py-3 sm:gap-4 sm:py-4"
             style={{
               paddingTop: "calc(env(safe-area-inset-top, 0px) + 0.75rem)",
             }}
@@ -102,10 +102,12 @@ export function ReaderShell({ novel, scenes }: ReaderShellProps) {
             <BackButton fallbackHref={`/novels/${novel.slug}`} label="返回详情" />
 
             {!showEnding && (
-              <ReaderToolbar
-                currentSceneText={scenes[currentIndex]?.text}
-                sceneKey={currentIndex}
-              />
+              <div className="min-w-0">
+                <ReaderToolbar
+                  currentSceneText={scenes[currentIndex]?.text}
+                  sceneKey={currentIndex}
+                />
+              </div>
             )}
           </div>
 
