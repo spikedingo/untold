@@ -7,7 +7,7 @@ export function Synopsis({ text }: SynopsisProps) {
 
   return (
     <div
-      className="prose max-w-none"
+      className="prose max-w-none overflow-auto"
       style={{ color: "var(--color-ink-700)", fontFamily: "var(--font-body)" }}
     >
       <h2
@@ -20,11 +20,12 @@ export function Synopsis({ text }: SynopsisProps) {
       {paragraphs.map((para, i) => (
         <p
           key={i}
-          className="mb-4 text-base leading-loose text-ink-700 first-letter:float-left first-letter:mr-2 first-letter:mt-1 first-letter:text-4xl first-letter:font-normal first-letter:leading-none first-letter:text-amber-glow"
-          style={{
-            fontFamily: "var(--font-body)",
-            ...(i !== 0 ? { "&::first-letter": undefined } : {}),
-          }}
+          className={
+            i === 0
+              ? "mb-4 text-base leading-loose text-ink-700 first-letter:float-left first-letter:mr-2 first-letter:mt-1 first-letter:text-4xl first-letter:font-normal first-letter:leading-none first-letter:text-amber-glow"
+              : "mb-4 text-base leading-loose text-ink-700"
+          }
+          style={{ fontFamily: "var(--font-body)" }}
         >
           {para}
         </p>
