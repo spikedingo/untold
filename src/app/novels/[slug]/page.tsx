@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { NovelHeader } from "@/components/novel/NovelHeader";
 import { Synopsis } from "@/components/novel/Synopsis";
 import { StartReadingCTA } from "@/components/novel/StartReadingCTA";
+import { BackButton } from "@/components/common/BackButton";
 import { getNovelBySlug } from "@/lib/queries/novels";
 
 interface Props {
@@ -26,6 +27,10 @@ export default async function NovelDetailPage({ params }: Props) {
 
   return (
     <div className="mx-auto max-w-3xl px-4 pb-20">
+      <div className="pt-6">
+        <BackButton fallbackHref="/" label="返回书架" />
+      </div>
+
       <NovelHeader novel={novel} />
 
       <div className="my-8 h-px bg-paper-200" aria-hidden="true" />

@@ -8,6 +8,7 @@ import { EndingCard } from "./EndingCard";
 import { ProgressBar } from "./ProgressBar";
 import { ReaderToolbar } from "./ReaderToolbar";
 import { ResumeBanner } from "./ResumeBanner";
+import { BackButton } from "@/components/common/BackButton";
 import { useReadingProgress } from "@/lib/hooks/useReadingProgress";
 import type { NovelWithCoverMeta, SceneRow } from "@/types/db";
 
@@ -23,14 +24,12 @@ export function ReaderShell({ novel, scenes }: ReaderShellProps) {
 
   const { savedIndex, saveProgress, clearProgress } = useReadingProgress(novel.slug);
 
-  // Show resume banner on mount if there's saved progress
   useEffect(() => {
     if (savedIndex !== null && savedIndex > 0) {
       setShowResume(true);
     }
   }, [savedIndex]);
 
-  // Save progress whenever scene changes
   useEffect(() => {
     if (!showEnding && scenes.length > 0) {
       saveProgress(currentIndex);
@@ -65,7 +64,6 @@ export function ReaderShell({ novel, scenes }: ReaderShellProps) {
     setShowResume(false);
   }, []);
 
-  // Keyboard navigation
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (showEnding) return;
@@ -84,20 +82,27 @@ export function ReaderShell({ novel, scenes }: ReaderShellProps) {
     );
   }
 
-  return (
-    <div className="mx-auto max-w-3xl px-4 pb-20">
-      {/* Toolbar */}
-      <ReaderToolbar
-        currentSceneText={!showEnding ? scenes[currentIndex]?.text : undefined}
-        sceneKey={currentIndex}
-      />
+  // Reserve room for the fixed bottom navigation while reading. Drop the
+  // padding when the ending card is shown — the bottom bar is hidden then.
+  const bottomPad = showEnding
+    ? "pb-20"
+    : "pb-[calc(env(safe-area-inset-bottom,0px)+7rem)]";
 
-      {/* Progress */}
+  return (
+    <div className={`mx-auto max-w-3xl px-4 ${bottomPad}`}>
+      {/* Top row: back + toolbar */}
+      <div className="flex items-center justify-between gap-3 pt-4">
+        <BackButton fallbackHref={`/novels/${novel.slug}`} label="返回详情" />
+        <ReaderToolbar
+          currentSceneText={!showEnding ? scenes[currentIndex]?.text : undefined}
+          sceneKey={currentIndex}
+        />
+      </div>
+
       {!showEnding && (
         <ProgressBar current={currentIndex} total={scenes.length} />
       )}
 
-      {/* Resume banner */}
       {showResume && savedIndex !== null && (
         <ResumeBanner
           savedIndex={savedIndex}
@@ -106,7 +111,6 @@ export function ReaderShell({ novel, scenes }: ReaderShellProps) {
         />
       )}
 
-      {/* Scene or Ending */}
       {showEnding ? (
         <EndingCard
           novelSlug={novel.slug}
@@ -120,14 +124,12 @@ export function ReaderShell({ novel, scenes }: ReaderShellProps) {
             <SceneView key={currentIndex} scene={scenes[currentIndex]} />
           </AnimatePresence>
 
-          <div className="border-t border-paper-200">
-            <NavigationButtons
-              currentIndex={currentIndex}
-              total={scenes.length}
-              onPrev={handlePrev}
-              onNext={handleNext}
-            />
-          </div>
+          <NavigationButtons
+            currentIndex={currentIndex}
+            total={scenes.length}
+            onPrev={handlePrev}
+            onNext={handleNext}
+          />
         </>
       )}
     </div>
