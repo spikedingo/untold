@@ -66,23 +66,25 @@
 }
 
 [data-theme="dark"] {
-  --background:          var(--color-paper-night);
-  --foreground:          var(--color-ink-light);
-  --card:                var(--color-paper-dusk);
-  --card-foreground:     var(--color-ink-light);
-  --popover:             var(--color-paper-dusk);
-  --popover-foreground:  var(--color-ink-light);
-  --primary:             var(--color-amber-glow);
-  --primary-foreground:  var(--color-paper-night);
-  --secondary:           #2E2420;
-  --secondary-foreground: var(--color-ink-dim);
-  --muted:               var(--color-paper-dusk);
-  --muted-foreground:    var(--color-ink-dim);
-  --accent:              #3A2A1E;
-  --accent-foreground:   var(--color-ink-light);
-  --border:              #3A2A1E;
-  --input:               #3A2A1E;
-  --ring:                var(--color-amber-glow);
+  /* tokens.css already flips --color-paper-* and --color-ink-* above;
+     these shadcn aliases just reference the already-overridden tokens. */
+  --background:           var(--color-paper-50);    /* resolves to #1A1814 */
+  --foreground:           var(--color-ink-900);     /* resolves to #E8DCC8 */
+  --card:                 var(--color-paper-100);   /* resolves to #261E18 */
+  --card-foreground:      var(--color-ink-900);
+  --popover:              var(--color-paper-100);
+  --popover-foreground:   var(--color-ink-900);
+  --primary:              var(--color-amber-glow);
+  --primary-foreground:   #1A1814;
+  --secondary:            var(--color-paper-200);   /* resolves to #3A2A1E */
+  --secondary-foreground: var(--color-ink-700);
+  --muted:                var(--color-paper-100);
+  --muted-foreground:     var(--color-ink-500);
+  --accent:               var(--color-paper-200);
+  --accent-foreground:    var(--color-ink-900);
+  --border:               var(--color-paper-200);
+  --input:                var(--color-paper-200);
+  --ring:                 var(--color-amber-glow);
 }
 
 /* --------------------------------------------------------------------------

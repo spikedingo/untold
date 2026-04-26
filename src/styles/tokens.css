@@ -58,8 +58,21 @@
 
 /* ---------------------------------------------------------------------------
    Dark mode overrides via data-theme attribute
+   Flip every ink/paper token so Tailwind utility classes (text-ink-900,
+   bg-paper-100, border-paper-200 …) automatically respond to dark mode.
    --------------------------------------------------------------------------- */
 [data-theme="dark"] {
-  --color-surface:    var(--color-paper-night);
-  --color-on-surface: var(--color-ink-light);
+  /* Semantic aliases */
+  --color-surface:    #1A1814;
+  --color-on-surface: #E8DCC8;
+
+  /* Ink — invert to light values */
+  --color-ink-900:    #E8DCC8;   /* was near-black, now warm parchment */
+  --color-ink-700:    #C8B9A8;   /* secondary text */
+  --color-ink-500:    #A89880;   /* muted / captions */
+
+  /* Paper — invert to dark surfaces */
+  --color-paper-50:   #1A1814;   /* page background */
+  --color-paper-100:  #261E18;   /* card / elevated surfaces */
+  --color-paper-200:  #3A2A1E;   /* borders, dividers */
 }
