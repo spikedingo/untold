@@ -24,7 +24,7 @@ export function ReaderToolbar({ currentSceneText, sceneKey }: ReaderToolbarProps
   }, [sceneKey]);
 
   return (
-    <div className="flex flex-wrap items-center justify-end gap-3 py-3">
+    <div className="flex flex-wrap items-center justify-end gap-3">
       <FontSizeSlider value={settings.fontSize} onChange={setFontSize} />
       {currentSceneText && (
         <TTSButton

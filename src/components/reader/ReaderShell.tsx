@@ -5,7 +5,6 @@ import { AnimatePresence } from "motion/react";
 import { SceneView } from "./SceneView";
 import { NavigationButtons } from "./NavigationButtons";
 import { EndingCard } from "./EndingCard";
-import { ProgressBar } from "./ProgressBar";
 import { ReaderToolbar } from "./ReaderToolbar";
 import { ResumeBanner } from "./ResumeBanner";
 import { BackButton } from "@/components/common/BackButton";
@@ -82,56 +81,93 @@ export function ReaderShell({ novel, scenes }: ReaderShellProps) {
     );
   }
 
-  // Reserve room for the fixed bottom navigation while reading. Drop the
-  // padding when the ending card is shown — the bottom bar is hidden then.
-  const bottomPad = showEnding
-    ? "pb-20"
-    : "pb-[calc(env(safe-area-inset-bottom,0px)+7rem)]";
+  // Reading progress percentage, fed into the top bar's bottom strip.
+  const pct =
+    scenes.length > 0 ? ((currentIndex + 1) / scenes.length) * 100 : 0;
 
   return (
-    <div className={`mx-auto max-w-3xl px-4 ${bottomPad}`}>
-      {/* Top row: back + toolbar */}
-      <div className="flex items-center justify-between gap-3 pt-4">
-        <BackButton fallbackHref={`/novels/${novel.slug}`} label="返回详情" />
-        <ReaderToolbar
-          currentSceneText={!showEnding ? scenes[currentIndex]?.text : undefined}
-          sceneKey={currentIndex}
-        />
-      </div>
+    <>
+      {/* Fixed top bar — mirrors the bottom navigation, full-screen width */}
+      <header
+        className="pointer-events-none fixed inset-x-0 top-0 z-30"
+        aria-label="阅读工具栏"
+      >
+        <div className="pointer-events-auto border-b border-paper-200/70 bg-surface/85 backdrop-blur-md supports-[backdrop-filter]:bg-surface/70">
+          <div
+            className="mx-auto flex max-w-3xl items-center justify-between gap-3 px-4 py-3 sm:py-4"
+            style={{
+              paddingTop: "calc(env(safe-area-inset-top, 0px) + 0.75rem)",
+            }}
+          >
+            <BackButton fallbackHref={`/novels/${novel.slug}`} label="返回详情" />
 
-      {!showEnding && (
-        <ProgressBar current={currentIndex} total={scenes.length} />
-      )}
+            {!showEnding && (
+              <ReaderToolbar
+                currentSceneText={scenes[currentIndex]?.text}
+                sceneKey={currentIndex}
+              />
+            )}
+          </div>
 
-      {showResume && savedIndex !== null && (
-        <ResumeBanner
-          savedIndex={savedIndex}
-          onResume={handleResume}
-          onDismiss={handleDismissResume}
-        />
-      )}
+          {/* Progress strip on the bottom edge — mirrors the bottom bar */}
+          {!showEnding && (
+            <div
+              className="h-[2px] w-full bg-paper-200/70"
+              role="progressbar"
+              aria-valuenow={currentIndex + 1}
+              aria-valuemin={1}
+              aria-valuemax={scenes.length}
+              aria-label={`第 ${currentIndex + 1} 章，共 ${scenes.length} 章`}
+            >
+              <div
+                className="h-full bg-amber-glow transition-[width] duration-500"
+                style={{ width: `${pct}%` }}
+              />
+            </div>
+          )}
+        </div>
+      </header>
 
-      {showEnding ? (
-        <EndingCard
-          novelSlug={novel.slug}
-          novelTitle={novel.title}
-          lastSceneText={scenes[scenes.length - 1].text}
-          onRestart={handleRestart}
-        />
-      ) : (
-        <>
-          <AnimatePresence mode="wait">
-            <SceneView key={currentIndex} scene={scenes[currentIndex]} />
-          </AnimatePresence>
-
-          <NavigationButtons
-            currentIndex={currentIndex}
-            total={scenes.length}
-            onPrev={handlePrev}
-            onNext={handleNext}
+      {/* Reading content — leaves room for both fixed bars */}
+      <div
+        className="mx-auto max-w-3xl px-4"
+        style={{
+          paddingTop: "calc(env(safe-area-inset-top, 0px) + 5rem)",
+          paddingBottom: showEnding
+            ? "5rem"
+            : "calc(env(safe-area-inset-bottom, 0px) + 7rem)",
+        }}
+      >
+        {showResume && savedIndex !== null && (
+          <ResumeBanner
+            savedIndex={savedIndex}
+            onResume={handleResume}
+            onDismiss={handleDismissResume}
           />
-        </>
-      )}
-    </div>
+        )}
+
+        {showEnding ? (
+          <EndingCard
+            novelSlug={novel.slug}
+            novelTitle={novel.title}
+            lastSceneText={scenes[scenes.length - 1].text}
+            onRestart={handleRestart}
+          />
+        ) : (
+          <>
+            <AnimatePresence mode="wait">
+              <SceneView key={currentIndex} scene={scenes[currentIndex]} />
+            </AnimatePresence>
+
+            <NavigationButtons
+              currentIndex={currentIndex}
+              total={scenes.length}
+              onPrev={handlePrev}
+              onNext={handleNext}
+            />
+          </>
+        )}
+      </div>
+    </>
   );
 }

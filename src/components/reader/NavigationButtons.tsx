@@ -23,22 +23,12 @@ export function NavigationButtons({
   const isFirst = currentIndex === 0;
   const isLast = currentIndex === total - 1;
 
-  const pct = total > 0 ? ((currentIndex + 1) / total) * 100 : 0;
-
   return (
     <div
       className="pointer-events-none fixed inset-x-0 bottom-0 z-30"
       aria-label="阅读导航"
     >
       <div className="pointer-events-auto border-t border-paper-200/70 bg-surface/85 backdrop-blur-md supports-[backdrop-filter]:bg-surface/70">
-        {/* Slim progress strip — gives the bar weight without an extra component */}
-        <div className="h-[2px] w-full bg-paper-200/70" aria-hidden="true">
-          <div
-            className="h-full bg-amber-glow transition-[width] duration-500"
-            style={{ width: `${pct}%` }}
-          />
-        </div>
-
         <div
           className="mx-auto flex max-w-3xl items-center justify-between gap-3 px-4 py-3 sm:py-4"
           style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 0.75rem)" }}

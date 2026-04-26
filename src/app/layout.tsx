@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Ma_Shan_Zheng, Fraunces } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
-import { Navbar } from "@/components/common/Navbar";
+import { ConditionalNavbar } from "@/components/common/ConditionalNavbar";
 import { PaperBackground } from "@/components/common/PaperBackground";
 
 /* --------------------------------------------------------------------------
@@ -65,7 +65,7 @@ export default function RootLayout({
         style={{ fontFamily: "'LXGW WenKai', var(--font-body, serif)" }}
       >
         <PaperBackground />
-        <Navbar />
+        <ConditionalNavbar />
         <main>{children}</main>
       </body>
     </html>
