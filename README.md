@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 未说 / Untold
 
-## Getting Started
+> 故事从你打开这本书才真正开始
 
-First, run the development server:
+An interactive fiction platform with an Organic Paper × Editorial Literary aesthetic. Built with Next.js 15, Supabase, Tailwind CSS v4, and Motion.
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 16 (App Router, RSC-first) |
+| Language | TypeScript 5 (strict mode) |
+| Styling | Tailwind CSS v4 with `@theme` custom tokens |
+| Animation | Motion (Framer Motion) — fade+rise, `AnimatePresence` |
+| Database | Supabase (Postgres + RLS) |
+| Fonts | LXGW WenKai · Ma Shan Zheng · Fraunces (Google Fonts) |
+| Package Manager | Yarn |
+| Deployment | Vercel |
+
+## Features
+
+- **P1** Linear scene reader with fade+rise transition animations
+- **P1** CSS/SVG typographic book covers driven by `cover_meta` JSON
+- **P1** Dark mode ("夜读") via `data-theme` attribute, persisted to localStorage
+- **P1** Font size & line-height adjustment, persisted to localStorage
+- **P1** Reading progress saved per novel, resume banner on return visit
+- **P1** Amber progress bar with chapter counter
+- **P2** Web Speech API TTS narration (zh-CN, Chrome preferred)
+- **P3** Keyboard arrow key navigation (left/right)
+
+## Setup
+
+See [specs/001-untold-platform/quickstart.md](../specs/001-untold-platform/quickstart.md) for the full onboarding guide.
+
+### Quick start
 
 ```bash
-npm run dev
-# or
+yarn install
+cp .env.local.example .env.local
+# Fill in Supabase credentials, then:
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Database
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Apply schema: paste `supabase/migrations/0001_init.sql` into Supabase SQL Editor
+2. Seed data: paste `supabase/seed.sql` into Supabase SQL Editor
+3. (Optional) Regenerate types: `supabase gen types typescript --project-id <ref> > src/types/db.ts`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Environment variables
 
-## Learn More
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://xxxxxxxxxxxx.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJh...
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Routes
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| URL | Description |
+|---|---|
+| `/` | Homepage — hero + novel grid |
+| `/novels/[slug]` | Novel detail — cover, synopsis, CTA |
+| `/read/[slug]` | Scene reader — 5 scenes with transitions |
+| `/dev/fonts` | Font combination debugger (dev tool) |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project Structure
 
-## Deploy on Vercel
+```
+src/
+  app/           Next.js App Router pages
+  components/
+    home/        Hero, NovelGrid, NovelCard
+    novel/       NovelHeader, Synopsis, StartReadingCTA
+    reader/      ReaderShell, SceneView, ProgressBar, ReaderToolbar, EndingCard...
+    cover/       TypographicCover (CSS/SVG cover system)
+    common/      Navbar, ThemeToggle, FontSizeSlider, PaperBackground
+  lib/
+    supabase/    Server + browser clients
+    queries/     RSC data access (novels, scenes)
+    hooks/       useTheme, useReadingProgress, useReaderSettings, useTTS
+    utils/       cn helper
+  styles/        tokens.css — paper/ink/amber design tokens
+  types/         db.ts — Supabase database types
+supabase/
+  migrations/    0001_init.sql
+  seed.sql
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Commit Philosophy
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project follows Conventional Commits format (`feat/fix/chore/docs/refactor`) with scopes reflecting each feature module. Commit messages document the intent and AI collaboration context for each increment.
+
+## Deploy
+
+```bash
+vercel
+# Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in Vercel dashboard
+```

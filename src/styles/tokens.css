@@ -1,0 +1,65 @@
+/* ==========================================================================
+   Untold — Design Tokens
+   Organic Paper × Editorial Literary aesthetic
+   ========================================================================== */
+
+:root {
+  /* -------------------------------------------------------------------------
+     Paper tones (light mode surfaces)
+     ------------------------------------------------------------------------- */
+  --color-paper-50:    #FBF7EE;   /* page background, lightest */
+  --color-paper-100:   #F3EAD3;   /* card backgrounds */
+  --color-paper-200:   #E8D9B5;   /* borders, dividers */
+  --color-paper-night: #1A1814;   /* dark mode page background */
+  --color-paper-dusk:  #261E18;   /* dark mode card backgrounds */
+
+  /* -------------------------------------------------------------------------
+     Ink tones
+     ------------------------------------------------------------------------- */
+  --color-ink-900:     #1B1812;   /* primary text, light mode */
+  --color-ink-700:     #3F362A;   /* secondary text */
+  --color-ink-500:     #6B5C47;   /* muted/caption text */
+  --color-ink-light:   #E8DCC8;   /* primary text, dark mode */
+  --color-ink-dim:     #A89880;   /* muted text, dark mode */
+
+  /* -------------------------------------------------------------------------
+     Amber accent (candlelight)
+     ------------------------------------------------------------------------- */
+  --color-amber-glow:  #C58B3B;   /* CTAs, progress bar, focus rings */
+  --color-amber-soft:  #E8B86D;   /* hover states, decorative */
+
+  /* -------------------------------------------------------------------------
+     Semantic aliases (switch in dark mode)
+     ------------------------------------------------------------------------- */
+  --color-surface:     var(--color-paper-50);
+  --color-on-surface:  var(--color-ink-900);
+  --color-accent:      var(--color-amber-glow);
+
+  /* -------------------------------------------------------------------------
+     Typography
+     ------------------------------------------------------------------------- */
+  --font-display:  var(--font-ma-shan-zheng, 'Ma Shan Zheng'), cursive;
+  --font-body:     var(--font-lxgw-wenkai, 'LXGW WenKai'), serif;
+  --font-accent:   var(--font-fraunces, 'Fraunces'), serif;
+  --font-ui:       var(--font-lxgw-wenkai, 'LXGW WenKai'), sans-serif;
+
+  /* -------------------------------------------------------------------------
+     Reader settings (overridden by useReaderSettings)
+     ------------------------------------------------------------------------- */
+  --reader-font-size:   1.125rem;
+  --reader-line-height: 1.9;
+  --reader-max-width:   65ch;
+
+  /* -------------------------------------------------------------------------
+     Spacing / misc
+     ------------------------------------------------------------------------- */
+  --spacing-reader-x: clamp(1.25rem, 5vw, 3rem);
+}
+
+/* ---------------------------------------------------------------------------
+   Dark mode overrides via data-theme attribute
+   --------------------------------------------------------------------------- */
+[data-theme="dark"] {
+  --color-surface:    var(--color-paper-night);
+  --color-on-surface: var(--color-ink-light);
+}
