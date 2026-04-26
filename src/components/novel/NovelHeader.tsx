@@ -14,6 +14,7 @@ export function NovelHeader({ novel }: NovelHeaderProps) {
           title={novel.title}
           author={novel.author}
           size="lg"
+          coverUrl={novel.cover_url}
         />
       </div>
 

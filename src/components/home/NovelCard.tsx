@@ -10,7 +10,7 @@ export function NovelCard({ novel }: NovelCardProps) {
   if (!novel.published) {
     return (
       <div className="flex flex-col gap-4 rounded-lg border border-paper-200 bg-paper-100 p-5 opacity-60">
-        <TypographicCover meta={novel.cover_meta} title={novel.title} author={novel.author} size="md" />
+        <TypographicCover meta={novel.cover_meta} title={novel.title} author={novel.author} size="md" coverUrl={novel.cover_url} />
         <div>
           <span className="mb-1 inline-block rounded-full bg-paper-200 px-2 py-0.5 text-xs text-ink-500">
             即将上线
@@ -32,7 +32,7 @@ export function NovelCard({ novel }: NovelCardProps) {
       className="group flex flex-col gap-4 rounded-lg border border-paper-200 bg-paper-100 p-5 transition-all hover:border-amber-glow/40 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-glow"
     >
       <div className="transition-transform duration-300 group-hover:scale-[1.02]">
-        <TypographicCover meta={novel.cover_meta} title={novel.title} author={novel.author} size="md" />
+        <TypographicCover meta={novel.cover_meta} title={novel.title} author={novel.author} size="md" coverUrl={novel.cover_url} />
       </div>
 
       <div>

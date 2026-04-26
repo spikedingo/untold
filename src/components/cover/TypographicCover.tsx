@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { cn } from "@/lib/utils/cn";
 import type { CoverMeta } from "@/types/db";
 
@@ -6,6 +7,7 @@ interface TypographicCoverProps {
   title: string;
   author: string;
   size?: "sm" | "md" | "lg";
+  coverUrl?: string | null;
 }
 
 const sizeStyles = {
@@ -19,9 +21,40 @@ export function TypographicCover({
   title,
   author,
   size = "md",
+  coverUrl,
 }: TypographicCoverProps) {
   const { wrapper, title: titleSize, author: authorSize } = sizeStyles[size];
   const { bg, accent, motif } = meta;
+
+  // Render photo cover when URL is provided
+  if (coverUrl) {
+    return (
+      <div
+        className={cn("relative overflow-hidden rounded-sm", wrapper)}
+        aria-hidden="true"
+      >
+        <Image
+          src={coverUrl}
+          alt={`《${title}》封面`}
+          fill
+          className="object-cover"
+          sizes="(max-width: 640px) 144px, 208px"
+          priority={size === "lg"}
+        />
+        {/* Gradient overlay for title legibility */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 p-3">
+          <div
+            className={cn("font-display leading-tight text-white", titleSize)}
+            style={{ fontFamily: "var(--font-display)", lineHeight: 1.3 }}
+          >
+            {title}
+          </div>
+          <div className={cn("mt-0.5 text-white/60", authorSize)}>{author}</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
